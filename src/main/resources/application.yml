@@ -11,3 +11,5 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      name: FLAT_FILE_WRITER_CHUNK_JOB
