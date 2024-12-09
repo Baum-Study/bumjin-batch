@@ -12,4 +12,4 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      name: FLAT_FILE_WRITER_CHUNK_JOB
+      name: JDBC_PAGING_CHUNK_JOB
