@@ -1,6 +1,6 @@
 package com.example.batch.jobs.jdbcpagingitemreader;
 
-import com.example.batch.common.Customer;
+import com.example.batch.common.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -37,22 +37,22 @@ public class JdbcBatchItemJobConfig {
   private final DataSource dataSource;
 
   @Bean
-  public FlatFileItemReader<Customer> flatFileItemReader() {
+  public FlatFileItemReader<CustomerDto> flatFileItemReader() {
 
-    return new FlatFileItemReaderBuilder<Customer>()
+    return new FlatFileItemReaderBuilder<CustomerDto>()
         .name("FlatFileItemReader")
         .resource(new ClassPathResource("./customer.csv"))
         .encoding(ENCODING)
         .delimited().delimiter(",")
         .names("name", "age", "gender")
-        .targetType(Customer.class)
+        .targetType(CustomerDto.class)
         .build();
   }
 
   @Bean
-  public JdbcBatchItemWriter<Customer> flatFileItemWriter() {
+  public JdbcBatchItemWriter<CustomerDto> flatFileItemWriter() {
 
-    return new JdbcBatchItemWriterBuilder<Customer>()
+    return new JdbcBatchItemWriterBuilder<CustomerDto>()
         .dataSource(dataSource)
         .sql("INSERT INTO customer2 (name, age, gender) VALUES (:name, :age, :gender)")
         .itemSqlParameterSourceProvider(new CustomerItemSqlParameterSourceProvider())
@@ -65,7 +65,7 @@ public class JdbcBatchItemJobConfig {
     log.info("------------------ Init flatFileStep -----------------");
 
     return new StepBuilder("flatFileStep", jobRepository)
-        .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
+        .<CustomerDto, CustomerDto>chunk(CHUNK_SIZE, transactionManager)
         .reader(flatFileItemReader())
         .writer(flatFileItemWriter())
         .build();

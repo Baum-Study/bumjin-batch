@@ -1,6 +1,6 @@
 package com.example.batch.jobs.flatfilereader;
 
-import com.example.batch.common.Customer;
+import com.example.batch.common.CustomerDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -32,20 +32,20 @@ public class FlatFileItemJobConfig_1 {
   public static final String FLAT_FILE_CHUNK_JOB = "FLAT_FILE_CHUNK_JOB";
 
   @Bean
-  public FlatFileItemReader<Customer> flatFileItemReader1() {
-    return new FlatFileItemReaderBuilder<Customer>()
+  public FlatFileItemReader<CustomerDto> flatFileItemReader1() {
+    return new FlatFileItemReaderBuilder<CustomerDto>()
         .name("flatFileItemReader1")
         .resource(new ClassPathResource("./customer.csv"))
         .encoding(ENCODING)
         .delimited().delimiter(",")
         .names("name", "age", "gender")
-        .targetType(Customer.class)
+        .targetType(CustomerDto.class)
         .build();
   }
 
   @Bean
-  public FlatFileItemWriter<Customer> flatFileItemWriter1() {
-    return new FlatFileItemWriterBuilder<Customer>()
+  public FlatFileItemWriter<CustomerDto> flatFileItemWriter1() {
+    return new FlatFileItemWriterBuilder<CustomerDto>()
         .name("flatFileItemWriter1")
         .resource(new FileSystemResource("./output/customer-output-new.csv"))
         .encoding(ENCODING)
@@ -59,7 +59,7 @@ public class FlatFileItemJobConfig_1 {
     log.info("------------------ Init flatFileStep -----------------");
 
     return new StepBuilder("flatFileStep1", jobRepository)
-        .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
+        .<CustomerDto, CustomerDto>chunk(CHUNK_SIZE, transactionManager)
         .reader(flatFileItemReader1())
         .writer(flatFileItemWriter1())
         .build();

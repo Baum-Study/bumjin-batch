@@ -1,11 +1,11 @@
 package com.example.batch.jobs.flatfilereader;
 
-import com.example.batch.common.Customer;
+import com.example.batch.common.CustomerDto;
 import org.springframework.batch.item.file.transform.LineAggregator;
 
-public class CustomerLineAggregator implements LineAggregator<Customer> {
+public class CustomerLineAggregator implements LineAggregator<CustomerDto> {
   @Override
-  public String aggregate(Customer item) {
+  public String aggregate(CustomerDto item) {
     return item.name() + "," + item.age();
   }
 }

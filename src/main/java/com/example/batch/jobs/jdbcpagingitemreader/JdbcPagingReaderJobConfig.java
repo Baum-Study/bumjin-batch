@@ -1,6 +1,6 @@
 package com.example.batch.jobs.jdbcpagingitemreader;
 
-import com.example.batch.common.Customer;
+import com.example.batch.common.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -42,8 +42,8 @@ public class JdbcPagingReaderJobConfig {
 
   private final DataSource dataSource;
 
-  private RowMapper<Customer> customerRowMapper() {
-    return (rs, rowNum) -> new Customer(
+  private RowMapper<CustomerDto> customerRowMapper() {
+    return (rs, rowNum) -> new CustomerDto(
         rs.getString("name"),
         rs.getInt("age"),
         rs.getString("gender")
@@ -51,11 +51,11 @@ public class JdbcPagingReaderJobConfig {
   }
 
   @Bean
-  public JdbcPagingItemReader<Customer> jdbcPagingItemReader() throws Exception {
+  public JdbcPagingItemReader<CustomerDto> jdbcPagingItemReader() throws Exception {
     Map<String, Object> parameterValue = new HashMap<>();
     parameterValue.put("age", 10);
 
-    return new JdbcPagingItemReaderBuilder<Customer>()
+    return new JdbcPagingItemReaderBuilder<CustomerDto>()
         .name("jdbcPagingItemReader")
         .fetchSize(CHUNK_SIZE)
         .dataSource(dataSource)
@@ -82,8 +82,8 @@ public class JdbcPagingReaderJobConfig {
   }
 
   @Bean
-  public FlatFileItemWriter<Customer> customerFlatFileItemWriter() {
-    return new FlatFileItemWriterBuilder<Customer>()
+  public FlatFileItemWriter<CustomerDto> customerFlatFileItemWriter() {
+    return new FlatFileItemWriterBuilder<CustomerDto>()
         .name("customerFlatFileItemWriter")
         .resource(new FileSystemResource("./output/customer-output-new-3.csv"))
         .encoding(ENCODING)
@@ -98,7 +98,7 @@ public class JdbcPagingReaderJobConfig {
     log.info("------------------ Init customerJdbcPagingStep -----------------");
 
     return new StepBuilder("customerJdbcPagingStep", jobRepository)
-        .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
+        .<CustomerDto, CustomerDto>chunk(CHUNK_SIZE, transactionManager)
         .reader(jdbcPagingItemReader())
         .writer(customerFlatFileItemWriter())
         .build();

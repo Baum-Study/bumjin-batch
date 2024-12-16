@@ -1,13 +1,13 @@
 package com.example.batch.jobs.flatfilereader;
 
-import com.example.batch.common.Customer;
+import com.example.batch.common.CustomerDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-public class AggregateCustomerProcessor implements ItemProcessor<Customer, Customer> {
+public class AggregateCustomerProcessor implements ItemProcessor<CustomerDto, CustomerDto> {
 
   ConcurrentHashMap<String, Integer> aggregateCustomers;
 
@@ -16,7 +16,7 @@ public class AggregateCustomerProcessor implements ItemProcessor<Customer, Custo
   }
 
   @Override
-  public Customer process(Customer item) throws Exception {
+  public CustomerDto process(CustomerDto item) throws Exception {
     aggregateCustomers.putIfAbsent("TOTAL_CUSTOMERS", 0);
     aggregateCustomers.putIfAbsent("TOTAL_AGES", 0);
 
