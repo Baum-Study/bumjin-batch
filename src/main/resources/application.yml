@@ -24,7 +24,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      name: JPA_PAGING_CHUNK_JOB
+      name: DAILY_SETTLEMENT_JOB
 
 
   # H2
@@ -33,3 +33,6 @@ spring:
   #    driver-class-name: org.h2.Driver
   #    username: sa
   #    password: 1234
+
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
