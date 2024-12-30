@@ -24,7 +24,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      name: DAILY_SETTLEMENT_JOB
+      name: MYBATIS_CHUNK_JOB_V2
 
 
   # H2
