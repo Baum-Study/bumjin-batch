@@ -13,7 +13,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     #    defer-datasource-initialization: true
     properties:
       hibernate:
@@ -24,7 +24,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      name: MYBATIS_CHUNK_JOB_V2
+      name: MEMBER_DELETE_JOB
 
 
   # H2
