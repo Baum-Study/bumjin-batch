@@ -24,7 +24,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      name: MEMBER_DELETE_JOB
+      name: QUERYDSL_PAGING_READER_JOB
 
 
   # H2
