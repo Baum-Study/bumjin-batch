@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.batch.jobs.mybatis">
+
+    <resultMap id="orderResult" type="com.example.batch.jobs.mission03.domain.Order">
+        <result property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="orderStatus" column="order_status"/>
+    </resultMap>
+
+    <insert id="insertOrders" parameterType="com.example.batch.jobs.mission03.domain.Order">
+        INSERT INTO order(member_id, product_id, quantity, total_price, order_date, delivery_date, order_status)
+        VALUES (#{memberId}, #{productId}, #{quantity}, #{totalPrice}, #{orderDate}, #{deliveryDate}, #{orderStatus});
+    </insert>
+
+    <select id="selectOrders" resultMap="customerResult">
+        SELECT id,
+               member_id,
+               product_id,
+               quantity,
+               total_price,
+               order_date,
+               delivery_date,
+               order_status
+        FROM customer LIMIT #{_skiprows}, #{_pagesize}
+
+    </select>
+</mapper>
